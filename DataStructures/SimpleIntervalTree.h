@@ -10,26 +10,6 @@
 namespace data_structures {
 namespace interval_trees {
 
-// If you inherit from this type you claim that your function is commutative.
-struct CommutativeDataBase {};
-
-// Inherit from this type:
-//  struct D: public CommutativeDataHelper<D> {
-//     void Add(const D&) {
-//       ..
-//     }
-//  };
-template<class T>
-struct CommutativeDataHelper : CommutativeDataBase {
-	void AddFront(const T& value) {
-		static_cast<T*>(this)->Add(value);
-	}
-	void AddBack(const T& value) {
-		static_cast<T*>(this)->Add(value);
-	}
-};
-
-
 // Data should implement the following methods:
 //   1) Copy constructor / operator=
 //   2) Default constructor
@@ -79,7 +59,6 @@ public:
 			Recompute(offset);
 		}
 	}
-
 
 	void AddAt(size_t offset, const Data& data, bool add_front=false) {
 		assert(offset < size_);
