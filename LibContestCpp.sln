@@ -7,6 +7,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructures", "DataStruc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructuresTests", "DataStructuresTests\DataStructuresTests.vcxproj", "{407DA7E2-13F2-42FB-BD5F-AFAAB49D0EC4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NumberTheory", "NumberTheory\NumberTheory.vcxproj", "{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NumberTheoryTests", "NumberTheoryTests\NumberTheoryTests.vcxproj", "{A9961BF6-E779-4C35-94C7-077769AFBDEA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED} = {6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +38,22 @@ Global
 		{407DA7E2-13F2-42FB-BD5F-AFAAB49D0EC4}.Release|x64.Build.0 = Release|x64
 		{407DA7E2-13F2-42FB-BD5F-AFAAB49D0EC4}.Release|x86.ActiveCfg = Release|Win32
 		{407DA7E2-13F2-42FB-BD5F-AFAAB49D0EC4}.Release|x86.Build.0 = Release|Win32
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}.Debug|x64.ActiveCfg = Debug|x64
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}.Debug|x64.Build.0 = Debug|x64
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}.Debug|x86.ActiveCfg = Debug|Win32
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}.Debug|x86.Build.0 = Debug|Win32
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}.Release|x64.ActiveCfg = Release|x64
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}.Release|x64.Build.0 = Release|x64
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}.Release|x86.ActiveCfg = Release|Win32
+		{6A772CD1-0FBB-4560-BE03-5AA7AF2788ED}.Release|x86.Build.0 = Release|Win32
+		{A9961BF6-E779-4C35-94C7-077769AFBDEA}.Debug|x64.ActiveCfg = Debug|x64
+		{A9961BF6-E779-4C35-94C7-077769AFBDEA}.Debug|x64.Build.0 = Debug|x64
+		{A9961BF6-E779-4C35-94C7-077769AFBDEA}.Debug|x86.ActiveCfg = Debug|Win32
+		{A9961BF6-E779-4C35-94C7-077769AFBDEA}.Debug|x86.Build.0 = Debug|Win32
+		{A9961BF6-E779-4C35-94C7-077769AFBDEA}.Release|x64.ActiveCfg = Release|x64
+		{A9961BF6-E779-4C35-94C7-077769AFBDEA}.Release|x64.Build.0 = Release|x64
+		{A9961BF6-E779-4C35-94C7-077769AFBDEA}.Release|x86.ActiveCfg = Release|Win32
+		{A9961BF6-E779-4C35-94C7-077769AFBDEA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
