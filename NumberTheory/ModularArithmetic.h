@@ -9,11 +9,13 @@
 namespace number_theory {
 namespace modular_arithmetic {
 
-template<int MOD>
+template<int modulus>
 struct IntegerModulo {
+	static constexpr int MOD = modulus;
 	IntegerModulo() : value_(0) {}
-	template<typename T, class=typename std::enable_if<std::is_integral<T>::value>::type>
+	template<typename T, class = typename std::enable_if<std::is_integral<T>::value>::type>
 	IntegerModulo(T value) {
+		static_assert(MOD > 0, "modulus can't be <= 0");
 		if (value >= MOD || value < 0) {
 			value_ = static_cast<uint32_t>(value % MOD);
 			if (value_ >= MOD) {
@@ -34,7 +36,7 @@ struct IntegerModulo {
 	}
 
 	template<typename T, class = typename std::enable_if<std::is_integral<T>::value>::type>
-	operator T() const {
+	explicit operator T() const {
 		return static_cast<T>(value_);
 	}
 
@@ -86,6 +88,28 @@ private:
 	}
 	uint32_t value_;
 };
+
+template<class Iter1, class Iter2>
+typename std::enable_if<
+	std::is_same<typename std::iterator_traits<Iter1>::value_type, typename std::iterator_traits<Iter2>::value_type>::value,
+	typename std::iterator_traits<Iter1>::value_type
+>::type FastDotProduct(
+	Iter1 begin1, 
+	Iter2 begin2,
+	size_t n) {
+	static constexpr int kMod = typename std::iterator_traits<Iter1>::value_type::MOD;
+	static constexpr uint64_t kModMax = (std::numeric_limits<uint64_t>::max() / kMod / 2) * kMod;
+	uint64_t result = 0;
+	while (n--) {
+		result += static_cast<uint64_t>(*begin1) * static_cast<uint64_t>(*begin2);
+		if (result >= kModMax) {
+			result -= kModMax;
+		}
+		++begin1;
+		++begin2;
+	}
+	return result; // Implicitly casted.
+}
 
 template<int MOD>
 std::wstring ToString(const IntegerModulo<MOD>& integer_modulo) {
