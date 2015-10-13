@@ -94,5 +94,5 @@ std::wstring ToString(const IntegerModulo<MOD>& integer_modulo) {
 	return oss.str();
 }
 
-}
+}  // namespace modular_arithmetic
 }  // namespace number_theory
