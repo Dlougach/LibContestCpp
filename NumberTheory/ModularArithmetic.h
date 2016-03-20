@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <cassert>
+#include <limits>
 
 namespace number_theory {
 namespace modular_arithmetic {
@@ -94,10 +95,10 @@ typename std::enable_if<
 	std::is_same<typename std::iterator_traits<Iter1>::value_type, typename std::iterator_traits<Iter2>::value_type>::value,
 	typename std::iterator_traits<Iter1>::value_type
 >::type FastDotProduct(
-	Iter1 begin1, 
+	Iter1 begin1,
 	Iter2 begin2,
 	size_t n) {
-	static constexpr int kMod = typename std::iterator_traits<Iter1>::value_type::MOD;
+	static constexpr int kMod = std::iterator_traits<Iter1>::value_type::MOD;
 	static constexpr uint64_t kModMax = (std::numeric_limits<uint64_t>::max() / kMod / 2) * kMod;
 	uint64_t result = 0;
 	while (n--) {

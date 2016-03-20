@@ -6,6 +6,7 @@
 #include <cassert>
 #include <numeric>
 #include <vector>
+#include <limits>
 
 namespace data_structures {
 namespace interval_trees {
@@ -13,7 +14,7 @@ namespace interval_trees {
 // Data should implement the following methods:
 //   1) Copy constructor / operator=
 //   2) Default constructor
-template<class Data>
+template<class Data, bool is_commutative = false>
 class SimpleIntervalTree {
 public:
 	using Operation = std::function<Data(const Data&, const Data&)>;
@@ -63,7 +64,7 @@ public:
 	void AddAt(size_t offset, const Data& data, bool add_front=false) {
 		assert(offset < size_);
 		offset += capacity_;
-		if (std::is_base_of<CommutativeDataBase, Data>::value) {
+		if (is_commutative) {
 			// This means we can do everything "easy" way.
 			while (offset != 0) {
 				ApplyOp(tree_[offset], data, &tree_[offset]);
@@ -78,7 +79,6 @@ public:
 			else {
 				ApplyOp(tree_[offset], data, &tree_[offset]);
 			}
-			OptimizeChooser::Call(tree[offset]);
 			while (offset != 1) {
 				offset /= 2;
 				Recompute(offset);
@@ -128,10 +128,10 @@ private:
 };
 
 template<class T>
-struct MinimumIntervalTree : public SimpleIntervalTree<T>
+struct MinimumIntervalTree : public SimpleIntervalTree<T, true>
 {
-	using SimpleIntervalTree::SimpleIntervalTree;
-	MinimumIntervalTree(size_t size) : SimpleIntervalTree(
+	using SimpleIntervalTree<T, true>::SimpleIntervalTree;
+	MinimumIntervalTree(size_t size) : SimpleIntervalTree<T, true>(
 		size,
 		[](const T& left, const T& right) {return std::min(left, right); },
 		std::numeric_limits<T>::max())
