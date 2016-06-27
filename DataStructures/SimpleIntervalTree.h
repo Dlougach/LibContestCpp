@@ -68,7 +68,7 @@ public:
 			// This means we can do everything "easy" way.
 			while (offset != 0) {
 				ApplyOp(tree_[offset], data, &tree_[offset]);
-				OptimizeChooser::Call(tree[offset]);
+				//OptimizeChooser::Call(tree[offset]);
 				offset /= 2;
 			}
 		}

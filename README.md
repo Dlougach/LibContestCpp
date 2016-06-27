@@ -11,3 +11,7 @@ So far includes most simple version of a segment tree.
 ## NumberTheory
 
 Includes primitives for modular arithmetics.
+
+## CppMagic
+
+Includes C++ metaprogramming magic that can be useful for programming contests.

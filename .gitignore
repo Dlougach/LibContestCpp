@@ -210,3 +210,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/LibContestCpp.VC.db
+/LibContestCpp.VC.VC.opendb
