@@ -6,8 +6,7 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace number_theory::modular_arithmetic;
 
-namespace NumberTheoryTests
-{
+namespace NumberTheoryTests {
 
 TEST_CLASS(IntegerModuloTestCase)
 {
@@ -74,4 +73,4 @@ public:
 	}
 };
 
-}
+}  // namespace NumberTheoryTests

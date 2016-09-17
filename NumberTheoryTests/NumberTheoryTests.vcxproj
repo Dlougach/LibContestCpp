@@ -154,6 +154,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FactorizationTests.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ModularArithmeticTests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
