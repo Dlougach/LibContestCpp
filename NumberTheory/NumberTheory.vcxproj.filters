@@ -21,5 +21,8 @@
     <ClInclude Include="Factorization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DiscreetLogarithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

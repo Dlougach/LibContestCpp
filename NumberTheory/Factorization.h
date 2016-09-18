@@ -17,29 +17,29 @@ namespace impl {
  */
 
 //! Модуль 64-битного числа
-long long abs(long long n)
+inline long long abs(long long n)
 {
 	return n < 0 ? -n : n;
 }
 
-unsigned long long abs(unsigned long long n)
+inline unsigned long long abs(unsigned long long n)
 {
 	return n;
 }
 
-int abs(int n)
+inline int abs(int n)
 {
 	return n < 0 ? -n : n;
 }
 
-unsigned int abs(unsigned int n)
+inline unsigned int abs(unsigned int n)
 {
 	return n;
 }
 
 //! Возвращает true, если n четное
 template <class T>
-bool even(const T & n)
+inline bool even(const T & n)
 {
 	// return n % 2 == 0;
 	return (n & 1) == 0;
@@ -47,7 +47,7 @@ bool even(const T & n)
 
 //! Делит число на 2
 template <class T>
-void bisect(T & n)
+inline void bisect(T & n)
 {
 	// n /= 2;
 	n >>= 1;
@@ -55,7 +55,7 @@ void bisect(T & n)
 
 //! Умножает число на 2
 template <class T>
-void redouble(T & n)
+inline void redouble(T & n)
 {
 	// n *= 2;
 	n <<= 1;
@@ -63,7 +63,7 @@ void redouble(T & n)
 
 //! Возвращает true, если n - точный квадрат простого числа
 template <class T>
-bool perfect_square(const T & n)
+inline bool perfect_square(const T & n)
 {
 	T sq = (T)ceil(sqrt((double)n));
 	return sq*sq == n;
@@ -71,14 +71,14 @@ bool perfect_square(const T & n)
 
 //! Вычисляет корень из числа, округляя его вниз
 template <class T>
-T sq_root(const T & n)
+inline T sq_root(const T & n)
 {
 	return (T)floor(sqrt((double)n));
 }
 
 //! Возвращает количество бит в числе (т.е. минимальное количество бит, которыми можно представить данное число)
 template <class T>
-unsigned bits_in_number(T n)
+inline unsigned bits_in_number(T n)
 {
 	if (n == 0)
 		return 1;
@@ -93,14 +93,14 @@ unsigned bits_in_number(T n)
 
 //! Возвращает значение k-го бита числа (биты нумеруются с нуля)
 template <class T>
-bool test_bit(const T & n, unsigned k)
+inline bool test_bit(const T & n, unsigned k)
 {
 	return (n & (T(1) << k)) != 0;
 }
 
 //! Умножает a *= b (mod n)
 template <class T>
-void mulmod(T & a, T b, const T & n)
+inline void mulmod(T & a, T b, const T & n)
 {
 	// наивная версия, годится только для длинной арифметики
 	a *= b;
@@ -108,19 +108,19 @@ void mulmod(T & a, T b, const T & n)
 }
 
 template <>
-void mulmod(int & a, int b, const int & n)
+inline void mulmod(int & a, int b, const int & n)
 {
 	a = int((((long long)a) * b) % n);
 }
 
 template <>
-void mulmod(unsigned & a, unsigned b, const unsigned & n)
+inline void mulmod(unsigned & a, unsigned b, const unsigned & n)
 {
 	a = unsigned((((unsigned long long)a) * b) % n);
 }
 
 template <>
-void mulmod(unsigned long long & a, unsigned long long b, const unsigned long long & n)
+inline void mulmod(unsigned long long & a, unsigned long long b, const unsigned long long & n)
 {
 	// сложная версия, основанная на бинарном разложении произведения в сумму
 	if (a >= n)
@@ -147,7 +147,7 @@ void mulmod(unsigned long long & a, unsigned long long b, const unsigned long lo
 }
 
 template <>
-void mulmod(long long & a, long long b, const long long & n)
+inline void mulmod(long long & a, long long b, const long long & n)
 {
 	bool neg = false;
 	if (a < 0)
@@ -168,7 +168,7 @@ void mulmod(long long & a, long long b, const long long & n)
 
 //! Вычисляет a^k (mod n). Использует бинарное возведение в степень
 template <class T, class T2>
-T powmod(T a, T2 k, const T & n)
+inline T powmod(T a, T2 k, const T & n)
 {
 	T res = 1;
 	while (k)
@@ -187,7 +187,7 @@ T powmod(T a, T2 k, const T & n)
 
 //! Переводит число n в форму q*2^p
 template <class T>
-void transform_num(T n, T & p, T & q)
+inline void transform_num(T n, T & p, T & q)
 {
 	T p_res = 0;
 	while (even(n))
@@ -201,14 +201,14 @@ void transform_num(T n, T & p, T & q)
 
 //! Алгоритм Евклида
 template <class T, class T2>
-T gcd(const T & a, const T2 & b)
+inline T gcd(const T & a, const T2 & b)
 {
 	return (a == 0) ? b : gcd(b % a, a);
 }
 
 //! Вычисляет jacobi(a,b)
 template <class T>
-T jacobi(T a, T b)
+inline T jacobi(T a, T b)
 {
 
 #pragma warning (push)
@@ -245,7 +245,7 @@ T jacobi(T a, T b)
 
 //! Вычисляет pi(b) первых простых чисел. Возвращает ссылку на вектор с простыми (в векторе может оказаться больше простых, чем надо) и в pi - pi(b)
 template <class T, class T2>
-const std::vector<T> & get_primes(const T & b, T2 & pi)
+inline const std::vector<T> & get_primes(const T & b, T2 & pi)
 {
 
 	static std::vector<T> primes;
@@ -296,7 +296,7 @@ const std::vector<T> & get_primes(const T & b, T2 & pi)
 
 //! Тривиальная проверка n на простоту, перебираются все делители до m. Результат: 1 - если n точно простое, p - его найденный делитель, 0 - если неизвестно, является ли n простым или нет
 template <class T, class T2>
-T2 prime_div_trivial(const T & n, T2 m)
+inline T2 prime_div_trivial(const T & n, T2 m)
 {
 
 	// сначала проверяем тривиальные случаи
@@ -331,7 +331,7 @@ T2 prime_div_trivial(const T & n, T2 m)
 
 //! Усиленный алгоритм Миллера-Рабина проверки n на простоту по базису b
 template <class T, class T2>
-bool miller_rabin(T n, T2 b)
+inline bool miller_rabin(T n, T2 b)
 {
 
 	// сначала проверяем тривиальные случаи
@@ -372,149 +372,10 @@ bool miller_rabin(T n, T2 b)
 
 }
 
-//! Усиленный алгоритм Лукаса-Селфриджа проверки n на простоту. Используется усиленный алгоритм Лукаса с параметрами Селфриджа. Работает только с знаковыми типами!!! Второй параметр unused не используется, он только дает тип
-template <class T, class T2>
-bool lucas_selfridge(const T & n, T2 unused)
-{
-
-	// сначала проверяем тривиальные случаи
-	if (n == 2)
-		return true;
-	if (n < 2 || even(n))
-		return false;
-
-	// проверяем, что n не является точным квадратом, иначе алгоритм даст ошибку
-	if (perfect_square(n))
-		return false;
-
-	// алгоритм Селфриджа: находим первое число d такое, что:
-	// jacobi(d,n)=-1 и оно принадлежит ряду { 5,-7,9,-11,13,... }
-	T2 dd;
-	for (T2 d_abs = 5, d_sign = 1; ; d_sign = -d_sign, ++++d_abs)
-	{
-		dd = d_abs * d_sign;
-		T g = gcd(n, d_abs);
-		if (1 < g && g < n)
-			// нашли делитель - d_abs
-			return false;
-		if (jacobi(T(dd), n) == -1)
-			break;
-	}
-
-	// параметры Селфриджа
-	T2
-		p = 1,
-		q = (p*p - dd) / 4;
-
-	// разлагаем n+1 = d*2^s
-	T n_1 = n;
-	++n_1;
-	T s, d;
-	transform_num(n_1, s, d);
-
-	// алгоритм Лукаса
-	T
-		u = 1,
-		v = p,
-		u2m = 1,
-		v2m = p,
-		qm = q,
-		qm2 = q * 2,
-		qkd = q;
-	for (unsigned bit = 1, bits = bits_in_number(d); bit < bits; bit++)
-	{
-		mulmod(u2m, v2m, n);
-		mulmod(v2m, v2m, n);
-		while (v2m < qm2)
-			v2m += n;
-		v2m -= qm2;
-		mulmod(qm, qm, n);
-		qm2 = qm;
-		redouble(qm2);
-		if (test_bit(d, bit))
-		{
-			T t1, t2;
-			t1 = u2m;
-			mulmod(t1, v, n);
-			t2 = v2m;
-			mulmod(t2, u, n);
-
-			T t3, t4;
-			t3 = v2m;
-			mulmod(t3, v, n);
-			t4 = u2m;
-			mulmod(t4, u, n);
-			mulmod(t4, (T)dd, n);
-
-			u = t1 + t2;
-			if (!even(u))
-				u += n;
-			bisect(u);
-			u %= n;
-
-			v = t3 + t4;
-			if (!even(v))
-				v += n;
-			bisect(v);
-			v %= n;
-			mulmod(qkd, qm, n);
-		}
-	}
-
-	// точно простое (или псевдо-простое)
-	if (u == 0 || v == 0)
-		return true;
-
-	// дополнительные проверки, иначе некоторые составные числа "превратятся" в простые
-	T qkd2 = qkd;
-	redouble(qkd2);
-	for (T2 r = 1; r < s; ++r)
-	{
-		mulmod(v, v, n);
-		v -= qkd2;
-		if (v < 0) v += n;
-		if (v < 0) v += n;
-		if (v >= n) v -= n;
-		if (v >= n) v -= n;
-		if (v == 0)
-			return true;
-		if (r < s - 1)
-		{
-			mulmod(qkd, qkd, n);
-			qkd2 = qkd;
-			redouble(qkd2);
-		}
-	}
-
-	return false;
-
-}
-
-//! Алгоритм Бэйли-Померанс-Селфридж-Вагстафф (BPSW) проверки n на простоту
-template <class T>
-bool baillie_pomerance_selfridge_wagstaff(T n)
-{
-
-	// сначала проверяем на тривиальные делители - до 29
-	int div = prime_div_trivial(n, 29);
-	if (div == 1)
-		return true;
-	if (div > 1)
-		return false;
-	// если div == 0, то на тривиальные делители n не делится
-
-	// тест Миллера-Рабина по базису 2
-	if (!miller_rabin(n, 2))
-		return false;
-
-	// усиленный тест Лукаса-Селфриджа
-	return lucas_selfridge(n, 0);
-
-}
 
 //! Метод Полларда p-1 факторизации числа. Функция возвращает найденный делитель числа или 1, если ничего не найдено
 template <class T>
-T pollard_p_1(T n)
+inline T pollard_p_1(T n)
 {
 	// параметры алгоритма, существенно влияют на производительность и качество поиска
 	const T b = 13;
@@ -557,7 +418,7 @@ T pollard_p_1(T n)
 
 //! Метод Полларда RHO факторизации числа. Возвращает его найденный делитель или 1, если ничего не было найдено
 template <class T>
-T pollard_rho(T n, unsigned iterations_count = 100000)
+inline T pollard_rho(T n, unsigned iterations_count = 100000)
 {
 	T
 		b0 = rand() % n,
@@ -584,7 +445,7 @@ T pollard_rho(T n, unsigned iterations_count = 100000)
 
 //! Метод Полларда-Бента факторизации числа. Возвращает его найденный делитель или 1, если ничего не было найдено
 template <class T>
-T pollard_bent(T n, unsigned iterations_count = 19)
+inline T pollard_bent(T n, unsigned iterations_count = 19)
 {
 	T
 		b0 = rand() % n,
@@ -608,7 +469,7 @@ T pollard_bent(T n, unsigned iterations_count = 19)
 
 //! Метод Полларда Monte-Carlo факторизации числа. Возвращает его найденный делитель или 1, если ничего не было найдено
 template <class T>
-T pollard_monte_carlo(T n, unsigned m = 100)
+inline T pollard_monte_carlo(T n, unsigned m = 100)
 {
 	T b = rand() % (m - 2) + 2;
 
@@ -657,7 +518,7 @@ T pollard_monte_carlo(T n, unsigned m = 100)
 
 //! Метод Ферма факторизации числа. Работает в худшем случае за O(sqrt(n)). Возвращает найденный делитель. Второй параметр должен быть того же типа, что и первый, только signed
 template <class T, class T2>
-T ferma(const T & n, T2 unused)
+inline T ferma(const T & n, T2 unused)
 {
 	T2
 		x = sq_root(n),
@@ -681,18 +542,29 @@ T ferma(const T & n, T2 unused)
 
 }  // namespace impl
 
-//! Алгоритм Бэйли-Померанс-Селфридж-Вагстафф (BPSW) проверки n на простоту
 template <class T>
 bool IsPrime(T n)
 {
-	return impl::baillie_pomerance_selfridge_wagstaff(n);
+	// сначала проверяем на тривиальные делители - до 29
+	int div = impl::prime_div_trivial(n, 29);
+	if (div == 1)
+		return true;
+	if (div > 1)
+		return false;
+	// если div == 0, то на тривиальные делители n не делится
+
+	for (T i = 2; (static_cast<T>(1) << i) <= n; ++i) {
+		if (!impl::miller_rabin(n, i))
+			return false;
+	}
+	return true;
 }
 
 namespace impl {
 
 //! Рекурсивная факторизация числа. Последний параметр должен быть того же типа, что и первый, только signed. Использует тест BPSW, метод Ферма, метод Полларда RHO, метод Полларда-Бента, метод Полларда Monte-Carlo
 template <class T, class T2>
-void FactorizeImpl(const T & n, std::map<T, unsigned> & result)
+inline void FactorizeImpl(const T & n, std::map<T, unsigned> & result)
 {
 	T2 unused = {};
 	if (n == 1)
@@ -733,7 +605,7 @@ void FactorizeImpl(const T & n, std::map<T, unsigned> & result)
 } // namespace impl
 
 template <class T, class T2 = typename std::make_signed<T>::type>
-std::map<T, unsigned> Factorize(const T & n) {
+inline std::map<T, unsigned> Factorize(const T & n) {
 	std::map<T, unsigned> result;
 	impl::FactorizeImpl<T, T2>(n, result);
 	return result;

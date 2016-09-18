@@ -10,7 +10,7 @@ So far includes most simple version of a segment tree.
 
 ## NumberTheory
 
-Includes primitives for modular arithmetics.
+Includes primitives for modular arithmetics and factorization algorithms.
 
 ## CppMagic
 

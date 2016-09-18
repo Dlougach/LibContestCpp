@@ -71,6 +71,24 @@ public:
 		}
 		Assert::AreEqual(expectedResult, FastDotProduct(list1.begin(), list2.begin(), numValues));
 	}
+
+	TEST_METHOD(TestDivisionWhenModuloNotPrime)
+	{
+		using Int = IntegerModulo<1000000006>;
+		Int a, b;
+		a = 2;
+		b = 4;
+		Assert::AreEqual(a, (a / b) * b);
+	}
+
+	TEST_METHOD(TestDivisionImpossible)
+	{
+		using Int = IntegerModulo<1000000006>;
+		Int a, b;
+		a = 3;
+		b = 4;
+		Assert::ExpectException<division_impossible_error>([a, b]() { return a / b; });
+	}
 };
 
 }  // namespace NumberTheoryTests

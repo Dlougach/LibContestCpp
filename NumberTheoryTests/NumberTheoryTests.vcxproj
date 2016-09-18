@@ -154,6 +154,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DiscreetLogarithmTest.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FactorizationTests.cpp">
       <SubType>
       </SubType>

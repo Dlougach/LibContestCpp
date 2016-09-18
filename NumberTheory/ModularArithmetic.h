@@ -1,14 +1,20 @@
 #pragma once
 
+#include <cassert>
 #include <cstdint>
 #include <utility>
 #include <sstream>
 #include <string>
-#include <cassert>
+#include <stdexcept>
 #include <limits>
 
 namespace number_theory {
 namespace modular_arithmetic {
+
+class division_impossible_error : public std::domain_error {
+public:
+	division_impossible_error() : domain_error("Division impossible for given operands") {}
+};
 
 template<int modulus>
 struct IntegerModulo {
@@ -76,11 +82,24 @@ struct IntegerModulo {
 			right.value_ *= cnt;
 			right.value_ -= MOD;
 		}
-		assert(left.value_ % right.value_ == 0);
+		if (left.value_ % right.value_ != 0)
+			throw division_impossible_error();
 		return result * (left.value_ / right.value_);
 	}
 	IntegerModulo& operator/=(IntegerModulo other) {
 		return (*this = *this / other);
+	}
+	IntegerModulo ToPower(unsigned long long power) const {
+		IntegerModulo curPow = *this;
+		IntegerModulo result = 1;
+		while (power != 0) {
+			if (power % 2 == 1) {
+				result *= curPow;
+			}
+			curPow *= curPow;
+			power /= 2;
+		}
+		return result;
 	}
 private:
 	struct unchecked_t_ {};
