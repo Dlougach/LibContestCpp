@@ -75,7 +75,12 @@ namespace big_integer {
 
 namespace detail
 {
-const std::size_t maxAlign(alignof(std::max_align_t));
+
+constexpr std::size_t maxAlign() {
+	using namespace std;
+	return alignof(max_align_t);
+}
+
 }
 
 // Adapted from https://howardhinnant.github.io/stack_alloc.html
@@ -101,7 +106,7 @@ public:
 		else
 		{
 			static_assert(
-				A <= detail::maxAlign,
+				A <= detail::maxAlign(),
 				"Operator new cannot guarantee the selected alignment");
 
 			return static_cast<char*>(::operator new(n));
@@ -148,7 +153,7 @@ private:
 	char* m_ptr;
 };
 
-template <class T, std::size_t N, std::size_t A = detail::maxAlign>
+template <class T, std::size_t N, std::size_t A = detail::maxAlign()>
 class ShortAlloc
 {
 	template <class, std::size_t, std::size_t>
