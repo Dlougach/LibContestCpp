@@ -24,5 +24,8 @@
     <ClInclude Include="DiscreetLogarithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BigInteger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

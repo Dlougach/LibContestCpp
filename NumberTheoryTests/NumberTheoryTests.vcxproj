@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BigIntegerTest.cpp" />
     <ClCompile Include="DiscreetLogarithmTest.cpp">
       <SubType>
       </SubType>

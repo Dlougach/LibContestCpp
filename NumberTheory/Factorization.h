@@ -16,7 +16,6 @@ namespace impl {
  * This implementation is taken from http://e-maxx.ru
  */
 
-//! Модуль 64-битного числа
 inline long long abs(long long n)
 {
 	return n < 0 ? -n : n;
@@ -37,7 +36,6 @@ inline unsigned int abs(unsigned int n)
 	return n;
 }
 
-//! Возвращает true, если n четное
 template <class T>
 inline bool even(const T & n)
 {
@@ -45,7 +43,6 @@ inline bool even(const T & n)
 	return (n & 1) == 0;
 }
 
-//! Делит число на 2
 template <class T>
 inline void bisect(T & n)
 {
@@ -53,7 +50,6 @@ inline void bisect(T & n)
 	n >>= 1;
 }
 
-//! Умножает число на 2
 template <class T>
 inline void redouble(T & n)
 {
@@ -61,7 +57,6 @@ inline void redouble(T & n)
 	n <<= 1;
 }
 
-//! Возвращает true, если n - точный квадрат простого числа
 template <class T>
 inline bool perfect_square(const T & n)
 {
@@ -69,14 +64,12 @@ inline bool perfect_square(const T & n)
 	return sq*sq == n;
 }
 
-//! Вычисляет корень из числа, округляя его вниз
 template <class T>
 inline T sq_root(const T & n)
 {
 	return (T)floor(sqrt((double)n));
 }
 
-//! Возвращает количество бит в числе (т.е. минимальное количество бит, которыми можно представить данное число)
 template <class T>
 inline unsigned bits_in_number(T n)
 {
@@ -91,18 +84,15 @@ inline unsigned bits_in_number(T n)
 	return result;
 }
 
-//! Возвращает значение k-го бита числа (биты нумеруются с нуля)
 template <class T>
 inline bool test_bit(const T & n, unsigned k)
 {
 	return (n & (T(1) << k)) != 0;
 }
 
-//! Умножает a *= b (mod n)
 template <class T>
 inline void mulmod(T & a, T b, const T & n)
 {
-	// наивная версия, годится только для длинной арифметики
 	a *= b;
 	a %= n;
 }
@@ -122,7 +112,6 @@ inline void mulmod(unsigned & a, unsigned b, const unsigned & n)
 template <>
 inline void mulmod(unsigned long long & a, unsigned long long b, const unsigned long long & n)
 {
-	// сложная версия, основанная на бинарном разложении произведения в сумму
 	if (a >= n)
 		a %= n;
 	if (b >= n)
@@ -166,7 +155,6 @@ inline void mulmod(long long & a, long long b, const long long & n)
 }
 
 
-//! Вычисляет a^k (mod n). Использует бинарное возведение в степень
 template <class T, class T2>
 inline T powmod(T a, T2 k, const T & n)
 {
@@ -185,7 +173,6 @@ inline T powmod(T a, T2 k, const T & n)
 	return res;
 }
 
-//! Переводит число n в форму q*2^p
 template <class T>
 inline void transform_num(T n, T & p, T & q)
 {
@@ -199,14 +186,12 @@ inline void transform_num(T n, T & p, T & q)
 	q = n;
 }
 
-//! Алгоритм Евклида
 template <class T, class T2>
 inline T gcd(const T & a, const T2 & b)
 {
 	return (a == 0) ? b : gcd(b % a, a);
 }
 
-//! Вычисляет jacobi(a,b)
 template <class T>
 inline T jacobi(T a, T b)
 {
@@ -243,7 +228,6 @@ inline T jacobi(T a, T b)
 
 }
 
-//! Вычисляет pi(b) первых простых чисел. Возвращает ссылку на вектор с простыми (в векторе может оказаться больше простых, чем надо) и в pi - pi(b)
 template <class T, class T2>
 inline const std::vector<T> & get_primes(const T & b, T2 & pi)
 {
@@ -251,20 +235,16 @@ inline const std::vector<T> & get_primes(const T & b, T2 & pi)
 	static std::vector<T> primes;
 	static T counted_b;
 
-	// если результат уже был вычислен ранее, возвращаем его, иначе довычисляем простые
 	if (counted_b >= b)
 		pi = T2(std::upper_bound(primes.begin(), primes.end(), b) - primes.begin());
 	else
 	{
-
-		// число 2 обрабатываем отдельно
 		if (counted_b == 0)
 		{
 			primes.push_back(2);
 			counted_b = 2;
 		}
 
-		// теперь обрабатываем все нечётные, пока не наберём нужное количество простых
 		T first = counted_b == 2 ? 3 : primes.back() + 2;
 		for (T cur = first; cur <= b; ++++cur)
 		{
@@ -294,12 +274,9 @@ inline const std::vector<T> & get_primes(const T & b, T2 & pi)
 
 }
 
-//! Тривиальная проверка n на простоту, перебираются все делители до m. Результат: 1 - если n точно простое, p - его найденный делитель, 0 - если неизвестно, является ли n простым или нет
 template <class T, class T2>
 inline T2 prime_div_trivial(const T & n, T2 m)
 {
-
-	// сначала проверяем тривиальные случаи
 	if (n == 2 || n == 3)
 		return 1;
 	if (n < 2)
@@ -307,11 +284,9 @@ inline T2 prime_div_trivial(const T & n, T2 m)
 	if (even(n))
 		return 2;
 
-	// генерируем простые от 3 до m
 	T2 pi;
 	const std::vector<T2> & primes = get_primes(m, pi);
 
-	// делим на все простые
 	for (std::vector<T2>::const_iterator iter = primes.begin(), end = primes.end();
 		iter != end; ++iter)
 	{
@@ -329,38 +304,30 @@ inline T2 prime_div_trivial(const T & n, T2 m)
 
 }
 
-//! Усиленный алгоритм Миллера-Рабина проверки n на простоту по базису b
 template <class T, class T2>
 inline bool miller_rabin(T n, T2 b)
 {
 
-	// сначала проверяем тривиальные случаи
 	if (n == 2)
 		return true;
 	if (n < 2 || even(n))
 		return false;
 
-	// проверяем, что n и b взаимно просты (иначе это приведет к ошибке)
-	// если они не взаимно просты, то либо n не просто, либо нужно увеличить b
 	if (b < 2)
 		b = 2;
 	for (T g; (g = gcd(n, b)) != 1; ++b)
 		if (n > g)
 			return false;
 
-	// разлагаем n-1 = q*2^p
 	T n_1 = n;
 	--n_1;
 	T p, q;
 	transform_num(n_1, p, q);
 
-	// вычисляем b^q mod n, если оно равно 1 или n-1, то n, вероятно, простое
 	T rem = powmod(T(b), q, n);
 	if (rem == 1 || rem == n_1)
 		return true;
 
-	// теперь вычисляем b^2q, b^4q, ... , b^((n-1)/2)
-	// если какое-либо из них равно n-1, то n, вероятно, простое
 	for (T i = 1; i < p; i++)
 	{
 		mulmod(rem, rem, n);
@@ -373,20 +340,16 @@ inline bool miller_rabin(T n, T2 b)
 }
 
 
-//! Метод Полларда p-1 факторизации числа. Функция возвращает найденный делитель числа или 1, если ничего не найдено
 template <class T>
 inline T pollard_p_1(T n)
 {
-	// параметры алгоритма, существенно влияют на производительность и качество поиска
 	const T b = 13;
 	const T q[] = { 2, 3, 5, 7, 11, 13 };
 
-	// несколько попыток алгоритма
 	T a = 5 % n;
 	for (int j = 0; j < 10; j++)
 	{
 
-		// ищем такое a, которое взаимно просто с n
 		while (gcd(a, n) != 1)
 		{
 			mulmod(a, a, n);
@@ -394,7 +357,6 @@ inline T pollard_p_1(T n)
 			a %= n;
 		}
 
-		// вычисляем a^M
 		for (size_t i = 0; i < sizeof q / sizeof q[0]; i++)
 		{
 			T qq = q[i];
@@ -403,7 +365,6 @@ inline T pollard_p_1(T n)
 			if (aa == 0)
 				continue;
 
-			// проверяем, не найден ли ответ
 			T g = gcd(aa - 1, n);
 			if (1 < g && g < n)
 				return g;
@@ -411,12 +372,10 @@ inline T pollard_p_1(T n)
 
 	}
 
-	// если ничего не нашли
 	return 1;
 
 }
 
-//! Метод Полларда RHO факторизации числа. Возвращает его найденный делитель или 1, если ничего не было найдено
 template <class T>
 inline T pollard_rho(T n, unsigned iterations_count = 100000)
 {
@@ -443,7 +402,6 @@ inline T pollard_rho(T n, unsigned iterations_count = 100000)
 	return g;
 }
 
-//! Метод Полларда-Бента факторизации числа. Возвращает его найденный делитель или 1, если ничего не было найдено
 template <class T>
 inline T pollard_bent(T n, unsigned iterations_count = 19)
 {
@@ -467,7 +425,6 @@ inline T pollard_bent(T n, unsigned iterations_count = 19)
 	return 1;
 }
 
-//! Метод Полларда Monte-Carlo факторизации числа. Возвращает его найденный делитель или 1, если ничего не было найдено
 template <class T>
 inline T pollard_monte_carlo(T n, unsigned m = 100)
 {
@@ -516,7 +473,6 @@ inline T pollard_monte_carlo(T n, unsigned m = 100)
 	return g;
 }
 
-//! Метод Ферма факторизации числа. Работает в худшем случае за O(sqrt(n)). Возвращает найденный делитель. Второй параметр должен быть того же типа, что и первый, только signed
 template <class T, class T2>
 inline T ferma(const T & n, T2 unused)
 {
@@ -545,13 +501,11 @@ inline T ferma(const T & n, T2 unused)
 template <class T>
 bool IsPrime(T n)
 {
-	// сначала проверяем на тривиальные делители - до 29
 	int div = impl::prime_div_trivial(n, 29);
 	if (div == 1)
 		return true;
 	if (div > 1)
 		return false;
-	// если div == 0, то на тривиальные делители n не делится
 
 	for (T i = 2; (static_cast<T>(1) << i) <= n; ++i) {
 		if (!impl::miller_rabin(n, i))
@@ -562,19 +516,16 @@ bool IsPrime(T n)
 
 namespace impl {
 
-//! Рекурсивная факторизация числа. Последний параметр должен быть того же типа, что и первый, только signed. Использует тест BPSW, метод Ферма, метод Полларда RHO, метод Полларда-Бента, метод Полларда Monte-Carlo
 template <class T, class T2>
 inline void FactorizeImpl(const T & n, std::map<T, unsigned> & result)
 {
 	T2 unused = {};
 	if (n == 1)
 		return;
-	// проверяем, не простое ли число
 	if (IsPrime(n)) {
 		++result[n];
 		return;
 	}
-	// если число достаточно маленькое, то его разлагаем простым перебором
 	if (n < 1000 * 1000)
 	{
 		T div = impl::prime_div_trivial(n, 1000);
@@ -583,9 +534,7 @@ inline void FactorizeImpl(const T & n, std::map<T, unsigned> & result)
 	}
 	else
 	{
-		// число большое, запускаем на нем алгоритмы факторизации
 		T div;
-		// сначала идут быстрые алгоритмы Полларда
 		div = impl::pollard_monte_carlo(n);
 		if (div == 1)
 			div = impl::pollard_rho(n);
@@ -593,10 +542,8 @@ inline void FactorizeImpl(const T & n, std::map<T, unsigned> & result)
 			div = impl::pollard_p_1(n);
 		if (div == 1)
 			div = impl::pollard_bent(n);
-		// если алгоритмы Полларда ничего не дали, то запускаем алгоритм Ферма, который гарантированно находит делитель
 		if (div == 1)
 			div = impl::ferma(n, unused);
-		// рекурсивно обрабатываем найденные множители
 		FactorizeImpl<T, T2>(div, result);
 		FactorizeImpl<T, T2>(n / div, result);
 	}

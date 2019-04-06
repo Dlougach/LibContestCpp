@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BigInteger.h" />
     <ClInclude Include="DiscreetLogarithm.h" />
     <ClInclude Include="Factorization.h" />
     <ClInclude Include="ModularArithmetic.h" />
