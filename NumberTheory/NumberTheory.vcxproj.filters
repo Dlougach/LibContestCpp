@@ -27,5 +27,8 @@
     <ClInclude Include="BigInteger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FFT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

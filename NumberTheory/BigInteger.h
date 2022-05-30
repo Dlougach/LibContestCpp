@@ -33,7 +33,6 @@
 #include <climits>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 #include <limits>
 #include <sstream>
 #include <stdexcept>
@@ -84,7 +83,7 @@ constexpr std::size_t maxAlign() {
 }
 
 // Adapted from https://howardhinnant.github.io/stack_alloc.html
-template <std::size_t N, std::size_t A = detail::maxAlign>
+template <std::size_t N, std::size_t A = detail::maxAlign()>
 class Arena
 {
 public:
@@ -162,19 +161,20 @@ public:
 	using value_type = T;
 	using ArenaType = Arena<N, A>;
 
-	ShortAlloc(ArenaType& a) noexcept
-		: m_arena(a)
-	{
-		static_assert(N % A == 0, "Invalid size for this alignment");
-	}
+	ShortAlloc(const ShortAlloc&) = default;
+	ShortAlloc& operator=(const ShortAlloc&) = delete;
 
+	/// caide keep
 	template <class U>
 	ShortAlloc(const ShortAlloc<U, N, A>& a) noexcept
 		: m_arena(a.m_arena)
 	{ }
 
-	ShortAlloc(const ShortAlloc&) = default;
-	ShortAlloc& operator=(const ShortAlloc&) = delete;
+	ShortAlloc(ArenaType& a) noexcept
+		: m_arena(a)
+	{
+		static_assert(N % A == 0, "Invalid size for this alignment");
+	}
 
 	template <class V> struct rebind { using other = ShortAlloc<V, N, A>; };
 
@@ -353,6 +353,7 @@ bool operator>=(const BigUint& lhs, const BigUint& rhs);
 
 inline bool operator!(const BigUint& val) { return val.zero(); }
 std::ostream& operator<<(std::ostream& out, const BigUint& val);
+std::istream& operator>>(std::istream& out, BigUint& val);
 
 template <class T, std::size_t N, class U, std::size_t M>
 inline bool operator==(
@@ -960,6 +961,14 @@ inline std::ostream& operator<<(std::ostream& out, const BigUint& val)
 {
 	out << val.str();
 	return out;
+}
+
+inline std::istream& operator>>(std::istream& in, BigUint& val)
+{
+	std::string str;
+	in >> str;
+	val = BigUint(str);
+	return in;
 }
 
 inline BigUint::Block BigUint::log2(const BigUint& in)
